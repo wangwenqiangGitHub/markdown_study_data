@@ -2782,6 +2782,210 @@ xml
 </LinearLayout>
 ```
 
+## SQLite数据库存储
+
+`MyDatabaseHelper.java`
+
+```java
+package com.example.databasetest;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
+import androidx.annotation.Nullable;
+
+public class MyDatabaseHelper extends SQLiteOpenHelper {
+    private Context mContext;
+    public static final String CREATE_BOOK = "create table Book("
+            + "id integer primary key autoincrement,"
+            + "author test,"
+            + "price real, "
+            + "pages integer, "
+            + "name text)";
+    public static final String CREATE_CATEGORY = "create table Category("
+            + "id integer primary key autoincrement,"
+            + "category_name text,"
+            + "category_code integer)";
+
+    /*只要版本号更大就可以实现升级*/
+    public MyDatabaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, name, factory, version);
+        mContext = context;
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        /*execSQL用来执行这个表建表语句*/
+        sqLiteDatabase.execSQL(CREATE_BOOK);
+        sqLiteDatabase.execSQL(CREATE_CATEGORY);
+        Toast.makeText(mContext, "Create succeeded", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        /*如果发现已经存在Book表就删除，引号内是一个DROP语句*/
+        sqLiteDatabase.execSQL("drop table if exists Book");
+        sqLiteDatabase.execSQL("drop table if exists Category");
+        /*删除完了再去生成*/
+        onCreate(sqLiteDatabase);
+    }
+}
+```
+
+`MainActivity.java`
+
+```java
+package com.example.databasetest;
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
+public class MainActivity extends AppCompatActivity {
+    private MyDatabaseHelper mDatabaseHelper;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        mDatabaseHelper = new MyDatabaseHelper(this, "BookStore.db", null, 2);
+        /*建表*/
+        Button createDatabase = findViewById(R.id.create_database);
+        createDatabase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*打开或创建一个现有的数据库*/
+                /*如果是创建就会去执行onCreate方法，否则返回那个打开的*/
+                mDatabaseHelper.getWritableDatabase();
+            }
+        });
+        /*添加数据*/
+        Button addData = findViewById(R.id.add_data);
+        addData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+
+                ContentValues values = new ContentValues();
+                /*组装第一条数据*/
+                values.put("name", "The Da Vinci Code");
+                values.put("author", "Dan Brown");
+                values.put("pages", 454);
+                values.put("price", 16.96);
+                /*插入第一条数据*/
+                db.insert("Book", null, values);
+                values.clear();
+
+                values.put("name", "The Lost Symbol");
+                values.put("author", "Dan Brown");
+                values.put("pages", 510);
+                values.put("price", 19.95);
+                /*插入第二条数据*/
+                db.insert("Book", null, values);
+            }
+        });
+        /*更新数据*/
+        Button updateData = findViewById(R.id.update_data);
+        updateData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+                ContentValues values = new ContentValues();
+                values.put("price", 10.99);
+                /*更新Book表中，name = The Da Vinci Code行，price行为10.99*/
+                db.update("Book", values, "name = ?", new String[]{"The Da Vinci Code"});
+            }
+        });
+        /*删除数据*/
+        Button deleteButton = findViewById(R.id.delete_data);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+                db.delete("Book", "pages > ?", new String[]{"500"});
+            }
+        });
+        /*查询数据*/
+        Button queryButton = findViewById(R.id.query_data);
+        queryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+                /*查询Book表中所有的数据*/
+                Cursor cursor = db.query("Book", null, null, null ,null, null, null);
+                /*遍历*/
+                if (cursor.moveToFirst()){
+                    do{
+                        int id = cursor.getInt(cursor.getColumnIndex("id"));
+                        String name = cursor.getString(cursor.getColumnIndex("name"));
+                        String author = cursor.getString(cursor.getColumnIndex("author"));
+                        int pages = cursor.getInt(cursor.getColumnIndex("pages"));
+                        double price = cursor.getDouble(cursor.getColumnIndex("price"));
+                        Log.d(TAG, "book id is " + id);
+                        Log.d(TAG, "book name is " + name);
+                        Log.d(TAG, "book author is " + author);
+                        Log.d(TAG, "book pages is " + pages);
+                        Log.d(TAG, "book price is " + price);
+                    }while (cursor.moveToNext());
+                }
+                /*关闭*/
+                cursor.close();
+            }
+        });
+    }
+
+    private static final String TAG = "MainActivity";
+}
+```
+
+`activity_main.xml`
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <Button
+        android:id="@+id/create_database"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create database"
+        />
+    <Button
+        android:id="@+id/add_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add data"
+        />
+    <Button
+        android:id="@+id/update_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Update data"
+        />
+    <Button
+        android:id="@+id/delete_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete data"
+        />
+    <Button
+        android:id="@+id/query_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Query data"
+        />
+</LinearLayout>
+```
+
 # 7.  跨程序共享数据——探究内容提供者
 
 > 内容提供器(Content Provider)用于在不同程序之间实现数据共享的功能。
