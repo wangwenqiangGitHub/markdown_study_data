@@ -187,7 +187,7 @@ git checkout -- [file]
 
 ![image-20210808103924517](https://i.loli.net/2021/08/08/mIlz59iBouwPkAq.png)
 
-取消了add还可以commit。
+取消了add还可以commit，相当于add和commit一起执行了：
 
 ```shell
 git commit -am "message"
