@@ -2986,6 +2986,10 @@ public class MainActivity extends AppCompatActivity {
 </LinearLayout>
 ```
 
+## LitePal
+
+> 需要时再去书上查吧
+
 # 7.  跨程序共享数据——探究内容提供者
 
 > 内容提供器(Content Provider)用于在不同程序之间实现数据共享的功能。
