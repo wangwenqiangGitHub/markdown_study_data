@@ -205,19 +205,33 @@ git commit -am "message"
  git remote add origin https://github.com/little-zhengjj/learngit.git
 ```
 
-
-
 ![image-20210808225050445](https://i.loli.net/2021/08/08/3cMhrw1CjeVHWEF.png)
 
-```shell
-clip < ~/.ssh/id_rsa.pub
-```
+配个密钥：
 
 ```shell
  ssh-keygen -t rsa -C "zhengjj"
 ```
 
+密钥位置：
+
 ```shell
 cat ~/.ssh/id_rsa.pub
+```
+
+复制：
+
+```shell
+clip < ~/.ssh/id_rsa.pub
+```
+
+放到github里：
+
+![image-20210809090827317](https://i.loli.net/2021/08/09/lwpM7JIiG1HjVqb.png)
+
+上传：
+
+```shell
+git push origin master
 ```
 
