@@ -153,14 +153,12 @@ git reset --hard be87990
 
 ![image-20210808104729427](https://i.loli.net/2021/08/08/BpGIiEL3QWgjMOZ.png)
 
-## 比较
+## 比较：
 
 ```shell
 git diff 工作区与暂存区比较
 git diff HEAD(^) 暂存区与本地库比较
 ```
-
-
 
 ## 撤消：
 
@@ -194,6 +192,72 @@ git commit -am "message"
 ```
 
 ![image-20210808104241585](https://i.loli.net/2021/08/08/ItybJ5PvcH1Qerm.png)
+
+## 分支：
+
+主分支master，HEAD指向master：
+
+### 创建分支：
+
+```shell
+git branch dev
+```
+
+### 切换分支：
+
+```shell
+git checkout dev
+git switch dev
+```
+
+上面两个可以合在一起：
+
+```shell
+git checkout -b dev 
+git switch -c dev
+```
+
+### 查看分支：
+
+```shell
+git branck -v
+```
+
+### 合并分支：
+
+git只能合并别的分支到当前分支
+
+```shell
+git merge dev 
+```
+
+### 删除分支：
+
+```shell
+git branch -d dev
+```
+
+## 分支冲突：
+
+当两个分支都对一个文件的同一行作了修改并且commit，就有冲突。人为的去解决。再去：
+
+```shell
+git add 
+git commit -m "message" (不能带文件名)
+```
+
+### 分支合并图：
+
+```shell
+git log --graph
+git log --graph --pretty=oneline --abbrev-commit
+```
+
+
+
+
+
+
 
 ## GitHub远程仓库
 
