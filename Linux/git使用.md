@@ -237,7 +237,7 @@ git merge dev
 git branch -d dev
 ```
 
-## 分支冲突：
+### 分支冲突：
 
 当两个分支都对一个文件的同一行作了修改并且commit，就有冲突。人为的去解决。再去：
 
@@ -252,10 +252,6 @@ git commit -m "message" (不能带文件名)
 git log --graph
 git log --graph --pretty=oneline --abbrev-commit
 ```
-
-
-
-
 
 
 
