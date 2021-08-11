@@ -2784,6 +2784,8 @@ xml
 
 ## SQLite数据库存储
 
+数据库建表：
+
 `MyDatabaseHelper.java`
 
 ```java
@@ -3132,6 +3134,42 @@ public class MainActivity extends AppCompatActivity {
 
 </manifest>
 ```
+
+## 2. 读取手机通讯录
+
+```java
+private void readContacts() {
+    Cursor cursor = null;
+    cursor = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null, null);
+    if (cursor != null) {
+        while (cursor.moveToNext()) {
+            String displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+            String number = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            mContentsList.add(new Contents(displayName, number));
+        }
+    }
+    ContentsAdapter contentsAdapter = new ContentsAdapter(mContentsList);
+    recyclerView.setAdapter(contentsAdapter);
+    cursor.close();
+}
+
+@Override
+public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    switch (requestCode) {
+        case 1:
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                readContacts();
+            }else {
+                Toast.makeText(this, "You denied the permission", Toast.LENGTH_SHORT).show();
+            }
+            break;
+        default:
+            break;
+    }
+}
+```
+
+
 
 # 8. 多媒体
 
