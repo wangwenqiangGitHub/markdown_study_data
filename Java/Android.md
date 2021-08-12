@@ -2988,6 +2988,171 @@ public class MainActivity extends AppCompatActivity {
 </LinearLayout>
 ```
 
+## MyDataBase
+
+`MainActivity.java`
+
+```java
+package com.example.mydatabase;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
+public class MainActivity extends AppCompatActivity {
+    MyDatabaseHelper mMyDatabaseHelper;
+    private static final String TAG = "MainActivity";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        /*创建一个SQLiteOpenHelper实例*/
+        mMyDatabaseHelper = new MyDatabaseHelper(this, "StudentStore.db", null, 1);
+        Button add_button = findViewById(R.id.add_data);
+        add_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*这条执行如果不存在数据库就会创建一个*/
+                SQLiteDatabase writableDatabase = mMyDatabaseHelper.getWritableDatabase();
+                ContentValues values = new ContentValues();
+                values.put("student_name", "zjj");
+                values.put("student_gender", "girl");
+                values.put("student_age", 23);
+                writableDatabase.insert("Student", null, values);
+            }
+        });
+        Button updata_button = findViewById(R.id.updata_data);
+        updata_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SQLiteDatabase writableDatabase = mMyDatabaseHelper.getWritableDatabase();
+                ContentValues values = new ContentValues();
+                values.put("student_age",  24);
+                /*更新时：要确定更新的表，values值，约束：指定更新student_name=zjj的那一行*/
+                writableDatabase.update("Student",values, "student_name = ?", new String[]{"zjj"});
+                values.put("student_age", 2500);
+                String[] where = new String[]{"zjj", "2"};
+                /*如果有多个约束条件，whereClause要用AND或OR连接*/
+                writableDatabase.update("Student",values, "student_name = ? AND id = ?", where);
+                values.put("student_age", 0);
+                where = new String[]{"5", "2500"};
+                writableDatabase.update("Student",values, "id = ? OR student_age = ?", where);
+            }
+        });
+        Button delete_button = findViewById(R.id.delete_data);
+        delete_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SQLiteDatabase writableDatabase = mMyDatabaseHelper.getWritableDatabase();
+                writableDatabase.delete("Student", "student_name = ? OR student_age > ?", new String[]{"zjj", "15"});
+            }
+        });
+        Button query_button = findViewById(R.id.query_data);
+        query_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SQLiteDatabase writableDatabase = mMyDatabaseHelper.getWritableDatabase();
+                Cursor student = writableDatabase.query("Student", null, null, null, null, null, null);
+                if (student.moveToFirst()) {
+                    do{
+                        int id = student.getInt(student.getColumnIndex("id"));
+                        String student_name = student.getString(student.getColumnIndex("student_name"));
+                        String student_gender = student.getString(student.getColumnIndex("student_gender"));
+                        int student_age = student.getInt(student.getColumnIndex("student_age"));
+                        Log.d(TAG, id + " Student_name " + student_name);
+                        Log.d(TAG, id + " Student_gender " + student_gender);
+                        Log.d(TAG, id + " Student_age " + student_age);
+                    }while (student.moveToNext());
+                }
+                student.close();
+            }
+        });
+    }
+}
+```
+
+`MyDatabaseHelper.java`
+
+```java
+package com.example.mydatabase;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import androidx.annotation.Nullable;
+
+public class MyDatabaseHelper extends SQLiteOpenHelper {
+    private Context mContext;
+    private static final String DELETE_TABLE = "drop table if exists Student";
+
+    public static final String CREATE_STUDENT = "create table Student("
+            + "id integer primary key autoincrement,"
+            + "student_name text,"
+            + "student_gender text,"
+            + "student_age integer)";
+
+    public MyDatabaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, name, factory, version);
+        mContext = context;
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL(CREATE_STUDENT);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        sqLiteDatabase.execSQL(DELETE_TABLE);
+        onCreate(sqLiteDatabase);
+    }
+}
+```
+
+`activity_main.xml`
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <Button
+        android:id="@+id/add_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="add_data"
+        />
+    <Button
+        android:id="@+id/updata_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="updata_data"
+        />
+    <Button
+        android:id="@+id/delete_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="delete_data"
+        />
+    <Button
+        android:id="@+id/query_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="query_data"
+        />
+
+</LinearLayout>
+```
+
 ## LitePal
 
 > 需要时再去书上查吧
