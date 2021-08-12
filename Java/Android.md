@@ -3153,6 +3153,543 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
 </LinearLayout>
 ```
 
+## 升级：
+
+`activity_main.xml`
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <EditText
+            android:id="@+id/input_name_text"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="name"
+            />
+        <Button
+            android:id="@+id/input_name_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="input_name"
+            android:textAllCaps="false"
+            />
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <CheckBox
+            android:id="@+id/girl_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="50dp"
+            android:text="girl"
+            />
+        <CheckBox
+            android:id="@+id/boy_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="50dp"
+            android:text="boy"
+            />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <EditText
+            android:id="@+id/input_age_text"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="age"
+            />
+        <Button
+            android:id="@+id/input_age_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="input_age"
+            android:textAllCaps="false"
+            />
+    </LinearLayout>
+    <Button
+        android:id="@+id/add_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_data"
+        />
+    <Button
+        android:id="@+id/updata_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/updata_data"
+        />
+    <Button
+        android:id="@+id/delete_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_data"
+        />
+    <Button
+        android:id="@+id/query_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/query_data"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView
+            android:id="@+id/text_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/id"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            />
+        <TextView
+            android:id="@+id/text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="100dp"
+            android:text="@string/name"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            />
+        <TextView
+            android:id="@+id/text_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="200dp"
+            android:text="@string/gender"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            />
+
+        <TextView
+            android:id="@+id/text_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="300dp"
+            android:text="@string/age"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            />
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
+
+
+</LinearLayout>
+```
+
+`database_table.xml`
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/re_text_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            />
+        <TextView
+            android:id="@+id/re_text_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="100dp"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            />
+        <TextView
+            android:id="@+id/re_text_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="200dp"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            />
+        <TextView
+            android:id="@+id/re_text_age"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="300dp"
+            android:textColor="#000000"
+            android:textSize="18sp"
+            />
+</RelativeLayout>
+```
+
+`Student.java`
+
+```java
+package com.example.mydatabase;
+
+public class Student {
+    private int id;
+    private String name;
+    private int age;
+    private String gender;
+
+    public Student(int id, String name,String gender, int age) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gender = gender;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+}
+```
+
+``StudentAdapter.java`
+
+```java
+package com.example.mydatabase;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentHolder> {
+    List<Student> mList;
+
+    public StudentAdapter(List<Student> list) {
+        mList = list;
+    }
+
+    @NonNull
+    @Override
+    public StudentHolder onCreateViewHolder( ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View view = layoutInflater.inflate(R.layout.database_table, parent, false);
+        /*布局传递到内部类的构造函数中*/
+        StudentHolder holder = new StudentHolder(view);
+        /*返回内部类对象*/
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(StudentAdapter.StudentHolder holder, int position) {
+        Student student = mList.get(position);
+        holder.idTextView.setText(student.getId() + "");
+        holder.nameTextView.setText(student.getName());
+        holder.ageTextView.setText(student.getAge() + "");
+        holder.genderTextView.setText(student.getGender());
+    }
+
+    @Override
+    public int getItemCount() {
+        return mList.size();
+    }
+
+    class StudentHolder extends RecyclerView.ViewHolder{
+        TextView idTextView;
+        TextView nameTextView;
+        TextView ageTextView;
+        TextView genderTextView;
+
+        public StudentHolder(View itemView) {
+            super(itemView);
+            idTextView = itemView.findViewById(R.id.re_text_id);
+            nameTextView = itemView.findViewById(R.id.re_text_name);
+            ageTextView = itemView.findViewById(R.id.re_text_age);
+            genderTextView = itemView.findViewById(R.id.re_text_gender);
+        }
+    }
+}
+```
+
+`MyDatabaseHelper.java`
+
+```java
+package com.example.mydatabase;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import androidx.annotation.Nullable;
+
+public class MyDatabaseHelper extends SQLiteOpenHelper {
+    private Context mContext;
+    private static final String DELETE_TABLE = "drop table if exists Student";
+
+    public static final String CREATE_STUDENT = "create table Student("
+            + "id integer primary key autoincrement,"
+            + "student_name text,"
+            + "student_gender text,"
+            + "student_age integer)";
+
+    /*如果版本号比原来的数字大，就执行onUpgrade*/
+    public MyDatabaseHelper(@Nullable Context context, @Nullable String name, @Nullable SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, name, factory, version);
+        mContext = context;
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        /*执行建表语句*/
+        sqLiteDatabase.execSQL(CREATE_STUDENT);
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+        /*删除表*/
+        sqLiteDatabase.execSQL(DELETE_TABLE);
+        onCreate(sqLiteDatabase);
+    }
+}
+```
+
+`MainActivity.java`
+
+```java
+package com.example.mydatabase;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.ChipGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    MyDatabaseHelper mMyDatabaseHelper;
+    private static final String TAG = "MainActivity";
+    private String name;
+    private EditText inputName;
+    private String age;
+    private EditText inputAge;
+    private CheckBox girlCheck;
+    private boolean isGirlCheck;
+    private CheckBox boyCheck;
+    private boolean isBoyCheck;
+    private List<Student>  mStudents = new ArrayList<>();
+    private RecyclerView mRecyclerView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        /*创建一个SQLiteOpenHelper实例*/
+        mMyDatabaseHelper = new MyDatabaseHelper(this, "StudentStore.db", null, 1);
+        inputName = findViewById(R.id.input_name_text);
+        inputAge = findViewById(R.id.input_age_text);
+
+        checkBoxChoice();
+
+        girlCheck = findViewById(R.id.girl_check);
+        Button input_name_button = findViewById(R.id.input_name_button);
+        input_name_button.setOnClickListener(this);
+        Button input_age_button = findViewById(R.id.input_age_button);
+        input_age_button.setOnClickListener(this);
+
+        Button add_button = findViewById(R.id.add_data);
+        add_button.setOnClickListener(this);
+
+        Button updata_button = findViewById(R.id.updata_data);
+        updata_button.setOnClickListener(this);
+
+        Button delete_button = findViewById(R.id.delete_data);
+        delete_button.setOnClickListener(this);
+
+        Button query_button = findViewById(R.id.query_data);
+        query_button.setOnClickListener(this);
+    }
+
+    private void checkBoxChoice() {
+        boyCheck = findViewById(R.id.boy_check);
+        boyCheck.setChecked(isBoyCheck);
+        boyCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                isBoyCheck = b;
+                if (isBoyCheck)
+                {
+                    girlCheck.setChecked(false);
+                }
+            }
+        });
+        girlCheck = findViewById(R.id.girl_check);
+        girlCheck.setChecked(isGirlCheck);
+        girlCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                isGirlCheck = b;
+                if (isGirlCheck)
+                {
+                    boyCheck.setChecked(false);
+                }
+            }
+        });
+    }
+    private String getName(){
+        name = inputName.getText().toString();
+        return name;
+    }
+    private String getAge(){
+        try{
+            age = inputAge.getText().toString();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return age;
+    }
+
+    @Override
+    public void onClick(View view) {
+        /*这条执行如果不存在数据库就会创建一个*/
+        SQLiteDatabase writableDatabase = mMyDatabaseHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        switch (view.getId())
+        {
+            case R.id.input_name_button:
+                getName();
+                break;
+            case R.id.input_age_button:
+                getAge();
+                break;
+            case R.id.add_data:
+                String name = getName();
+                String gender =((isBoyCheck | isGirlCheck) ? (isBoyCheck? "boy" : "girl") : "");
+                String age = getAge();
+                values.put("student_name", name);
+                values.put("student_gender", gender);
+                values.put("student_age", age);
+                if ("".equals(name) && "".equals(gender) && "".equals(age))
+                {
+                    break;
+                }
+                writableDatabase.insert("Student", null, values);
+                break;
+            case R.id.updata_data:
+                values.put("student_age",  23);
+                /*更新时：要确定更新的表，values值，约束：指定更新student_name=zjj的那一行*/
+                writableDatabase.update("Student",values, "student_name = ?", new String[]{"zjj"});
+                values.put("student_age", 2500);
+                String[] where = new String[]{"zjj", "2"};
+                /*如果有多个约束条件，whereClause要用AND或OR连接*/
+                writableDatabase.update("Student",values, "student_name = ? AND id = ?", where);
+                values.put("student_age", 0);
+                where = new String[]{"5", "2500"};
+                writableDatabase.update("Student",values, "id = ? OR student_age = ?", where);
+                break;
+            case R.id.delete_data:
+                /*把对应名字和大于这个年龄的删掉*/
+                writableDatabase.delete("Student", "student_name = ? OR student_age > ?", new String[]{getName(), getAge()});
+                break;
+            case R.id.query_data:
+                /*每次查询前清空List*/
+                mStudents.removeAll(mStudents);
+                Cursor student = writableDatabase.query("Student", null, null, null, null, null, null);
+                if (student.moveToFirst()) {
+                    do{
+                        int id = student.getInt(student.getColumnIndex("id"));
+                        String student_name = student.getString(student.getColumnIndex("student_name"));
+                        String student_gender = student.getString(student.getColumnIndex("student_gender"));
+                        int student_age = student.getInt(student.getColumnIndex("student_age"));
+                        mStudents.add(new Student(id, student_name, student_gender, student_age));
+                        Log.d(TAG, id + " Student_name " + student_name);
+                        Log.d(TAG, id + " Student_gender " + student_gender);
+                        Log.d(TAG, id + " Student_age " + student_age);
+                    }while (student.moveToNext());
+                }
+                /*给RecyclerView里添加数据*/
+                mRecyclerView = findViewById(R.id.recycler_view);
+                LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+                mRecyclerView.setLayoutManager(layoutManager);
+                StudentAdapter studentAdapter = new StudentAdapter(mStudents);
+                mRecyclerView.setAdapter(studentAdapter);
+                student.close();
+                break;
+        }
+    }
+}
+```
+
+![image-20210812111613969](https://i.loli.net/2021/08/12/ACJqGRK7sT6zwcu.png)
+
 ## LitePal
 
 > 需要时再去书上查吧
@@ -3491,6 +4028,207 @@ public void onClick(View view) {
 > [ Android 8.0 后通知、通知渠道、通知渠道组使用简介_WindGrin_的博客-CSDN博客](https://blog.csdn.net/WindGrin_/article/details/97143395)
 
 ## 2. 摄像与相册
+
+```java
+package com.example.cameraalbumtest;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+import android.Manifest;
+import android.content.ContentUris;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
+import org.jetbrains.annotations.NotNull;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+public class MainActivity extends AppCompatActivity {
+    public static final int TAKE_PHOTO = 1;
+    public static final int CHOOSE_PHOTO = 2;
+    private ImageView picture;
+    /*图片本地的真实路径*/
+    private Uri imageUri;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button takePhoto = findViewById(R.id.take_photo);
+        Button chooseFromAlbum = findViewById(R.id.choose_from_album);
+        picture = findViewById(R.id.picture);
+        takePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*用于存放拍下的照片*/
+                /*调用getExternalCacheDir()方法得到SD中专门存放当前应用缓存数据的位置*/
+                File outputImage = new File(getExternalCacheDir(), "output_image.jpg");
+                try {
+                    /*存在清空*/
+                    if (outputImage.exists()) {
+                        outputImage.delete();
+                    }
+                    outputImage.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (Build.VERSION.SDK_INT >= 24) {/*版本高于7.0*/
+                    /*File对象转换为封装过的Uri标识对象，FileProvider是一种特殊的内容提供器*/
+                    imageUri = FileProvider.getUriForFile(MainActivity.this, "com.example.cameraalbumtest.fileprovider", outputImage);
+                } else {
+                    /*指定图片的输出地址*/
+                    imageUri = Uri.fromFile(outputImage);
+                }
+                /*隐式Intent，启动相机程序*/
+                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+                /*指定图片的输出地址*/
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent, TAKE_PHOTO);
+            }
+        });
+        chooseFromAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*有没有权限（允许程序写入外部存储，如SD卡上写文件）*/
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                }else {
+                    openAlbum();
+                }
+            }
+
+        });
+    }
+    private void openAlbum() {
+        /*获得Content的内action*/
+        Intent intent = new Intent("android.intent.action.GET_CONTENT");
+        intent.setType("image/*");
+        startActivityForResult(intent, CHOOSE_PHOTO);
+    }
+
+    /**
+     * 清求权限
+     * @param requestCode 请求码
+     * @param permissions 请求的权限数组
+     * @param grantResults 授权的结果数组
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull @NotNull String[] permissions, @NonNull @NotNull int[] grantResults) {
+        switch (requestCode){
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    openAlbum();
+                }else {
+                    Toast.makeText(this, "You denied the permission", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case TAKE_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    try {
+                        /*拍照成功后显示图片*/
+                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                        picture.setImageBitmap(bitmap);
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+            case CHOOSE_PHOTO:
+                if (resultCode == RESULT_OK) {
+                    // 判断手机系统版本号
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        // 4.4及以上系统使用这个方法处理图片
+                        handleImageOnKitKat(data);
+                    } else {
+                        // 4.4以下系统使用这个方法处理图片
+                        handleImageBeforeKitKat(data);
+                    }
+                }
+            default:
+                break;
+        }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    private void handleImageOnKitKat(Intent data) {
+        String imagePath = null;
+        Uri uri = data.getData();
+        Log.d("TAG", "handleImageOnKitKat: uri is " + uri);
+        if (DocumentsContract.isDocumentUri(this, uri)) {
+            // 如果是document类型的Uri，则通过document id处理
+            String docId = DocumentsContract.getDocumentId(uri);
+            if("com.android.providers.media.documents".equals(uri.getAuthority())) {
+                String id = docId.split(":")[1]; // 解析出数字格式的id
+                String selection = MediaStore.Images.Media._ID + "=" + id;
+                imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, selection);
+            } else if ("com.android.providers.downloads.documents".equals(uri.getAuthority())) {
+                Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"), Long.valueOf(docId));
+                imagePath = getImagePath(contentUri, null);
+            }
+        } else if ("content".equalsIgnoreCase(uri.getScheme())) {
+            // 如果是content类型的Uri，则使用普通方式处理
+            imagePath = getImagePath(uri, null);
+        } else if ("file".equalsIgnoreCase(uri.getScheme())) {
+            // 如果是file类型的Uri，直接获取图片路径即可
+            imagePath = uri.getPath();
+        }
+        displayImage(imagePath); // 根据图片路径显示图片
+    }
+
+    private void handleImageBeforeKitKat(Intent data) {
+        Uri uri = data.getData();
+        String imagePath = getImagePath(uri, null);
+        displayImage(imagePath);
+    }
+
+    private String getImagePath(Uri uri, String selection) {
+        String path = null;
+        // 通过Uri和selection来获取真实的图片路径
+        Cursor cursor = getContentResolver().query(uri, null, selection, null, null);
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            }
+            cursor.close();
+        }
+        return path;
+    }
+
+    private void displayImage(String imagePath) {
+        if (imagePath != null) {
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            picture.setImageBitmap(bitmap);
+        } else {
+            Toast.makeText(this, "failed to get image", Toast.LENGTH_SHORT).show();
+        }
+    }
+}
+```
 
 ## 2.  音乐
 

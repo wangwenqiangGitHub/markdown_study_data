@@ -4819,8 +4819,6 @@ File(String parent, String child)
 
 ### 获取与判断
 
-
-
 ![image-20201009202952702](C:\Users\31787\AppData\Roaming\Typora\typora-user-images\image-20201009202952702.png)
 
 ![image-20201009203021571](C:\Users\31787\AppData\Roaming\Typora\typora-user-images\image-20201009203021571.png)
@@ -5409,6 +5407,7 @@ class out {
 
 Reflection：执行期获得任何类的内部信息
 框架 = 反射 + 注解 + 设计模式
+
 1. 通过直接new的方式或反射的方式都可以调用公共结构，开发中到底用哪一个？
 建议用直接new的方式
 
